@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title> Error </title>
+    <link rel="stylesheet" th:href="@{/css/generalError.css}">
 </head>
 <body>
 <h1>An Error Occurred</h1>
 <p th:text="${message}"></p>
-<a href="/eregistrar/students">Go Back to Student List </a>
+<a href="/api/v1/eregistrar/students">Go Back to Student List </a>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.eRegister.eRegister.exception;
 
-import com.eRegister.eRegister.exception.StudentNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

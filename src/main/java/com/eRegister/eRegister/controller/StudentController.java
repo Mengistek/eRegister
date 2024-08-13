@@ -1,5 +1,7 @@
 package com.eRegister.eRegister.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.eRegister.eRegister.dto.StudentDto;
@@ -9,11 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/eregistrar/students")
 public class StudentController {
@@ -45,7 +48,12 @@ public class StudentController {
     }
 
     @PostMapping("/register")
-    public String registerStudent(@ModelAttribute("student") StudentDto studentDto) {
+    public String registerStudent(@Valid @ModelAttribute("student") StudentDto studentDto, BindingResult result,Model model) {
+        if (result.hasErrors()){
+            return "student/register";
+        }
+        System.out.println("Register student"+ studentDto);
+
         studentService.saveStudent(studentDto);
         return  "redirect:/api/v1/eregistrar/students";
     }
@@ -58,27 +66,30 @@ public class StudentController {
             return "student/edit";
         } catch (StudentNotFoundException e) {
             model.addAttribute("message", e.getMessage());
-            return "error";
+            return "studentNotFound";
         }
     }
 
+
     @PostMapping("/edit/{id}")
-    public String updateStudent(@PathVariable("id") Long id, @ModelAttribute("student") StudentDto studentDto) {
+    public String updateStudent(@PathVariable("id") Long id, @ModelAttribute("student") StudentDto studentDto, Model model) {
         try {
             studentService.updateStudent(studentDto, id);
             return "redirect:/api/v1/eregistrar/students";
         } catch (StudentNotFoundException e) {
-            return "error";
+            model.addAttribute("message", e.getMessage());
+            return "studentNotFound"; // Ensure this matches the path to your Thymeleaf template
         }
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") Long id) {
+    public String deleteStudent(@PathVariable("id") Long id, Model model) {
         try {
             studentService.deleteStudent(id);
             return "redirect:/api/v1/eregistrar/students";
         } catch (StudentNotFoundException e) {
-            return "error";
+            model.addAttribute("message", e.getMessage());
+            return "studentNotFound"; // Ensure this matches the path to your Thymeleaf template
         }
     }
 

@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Student</title>
+    <link rel="stylesheet" th:href="@{/css/edit.css}">
+
 </head>
 <body>
 <h1>Edit Student</h1>
-<form th:action="@{/eregistrar/students/edit/{id}(id=${student.student_id})}" th:object="${student}" method="post">
+<form th:action="@{/api/v1/eregistrar/students/edit/{id}(id=${student.student_id})}" th:object="${student}" method="post">
     <label>Student Number:</label>
     <input type="text" th:field="*{studentNumber}" required/><br/>
     <label>First Name:</label>

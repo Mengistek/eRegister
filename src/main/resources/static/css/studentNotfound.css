@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+h1 {
+    color: #D9534F; /* Bootstrap danger color */
+}
+
+p {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+a:hover {
+    text-decoration: underline;
+}
