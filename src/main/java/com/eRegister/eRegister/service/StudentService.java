@@ -5,6 +5,7 @@ import com.eRegister.eRegister.dto.StudentDto;
 import com.eRegister.eRegister.exception.StudentNotFoundException;
 import com.eRegister.eRegister.model.Student;
 import com.eRegister.eRegister.repository.StudentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +17,31 @@ public class StudentService implements StudentIpm {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    // Conversion methods using ModelMapper
+    private StudentDto convertToDto(Student student) {
+        return modelMapper.map(student, StudentDto.class);
+    }
+
+    private Student convertToEntity(StudentDto studentDto) {
+        return modelMapper.map(studentDto, Student.class);
+    }
 
     @Override
     public StudentDto saveStudent(StudentDto studentDto) {
-       Student student= mapToEntity(studentDto);
-       student = studentRepository.save(student);
-        return mapToDto(student);
+        Student student = modelMapper.map(studentDto, Student.class);
+        Student savestudent = studentRepository.save(student);
+        return modelMapper.map(savestudent, StudentDto.class);
     }
 
     @Override
     public StudentDto getStudentById(Long id) {
-        Student student= studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " +id));
-        return mapToDto(student);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
+        return modelMapper.map(student, StudentDto.class);
     }
 
     @Override
@@ -41,26 +54,35 @@ public class StudentService implements StudentIpm {
 
     @Override
     public StudentDto updateStudent(StudentDto studentDto, Long id) {
-        if (!studentRepository.existsById(id)) {
-            throw new StudentNotFoundException("Cannot update. Student not found with ID: " + id);
-        }
-        Student student= mapToEntity(studentDto);
-        student.setStudent_id(id);
-        student = studentRepository.save(student);
-        return mapToDto(student);
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with id: " + id));
+        modelMapper.map(studentDto, existingStudent);
+        Student updatedStudent = studentRepository.save(existingStudent);
+        return modelMapper.map(updatedStudent, StudentDto.class);
     }
 
     @Override
     public List<StudentDto> getAllStudents() {
-        return studentRepository.findAll().stream()
-                .map(this::mapToDto)
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-    public List<StudentDto> searchStudents(String studentNumber){
-        return studentRepository.findByStudentNumberContaining(studentNumber)
-                .stream().map(this::mapToDto)
+
+    @Override
+    public List<StudentDto> searchStudentsByNumber(String studentNumber) {
+        List<Student> students = studentRepository.findByStudentNumberContaining(studentNumber);
+        return students.stream()
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
+
+
     }
+}
+
+
+    /*
+        // manual converted //
     public StudentDto mapToDto(Student student){
         StudentDto studentDto = new StudentDto();
         studentDto.setStudent_id(student.getStudent_id());
@@ -86,5 +108,8 @@ public class StudentService implements StudentIpm {
         return student;
 
     }
-}
+
+     */
+
+
 

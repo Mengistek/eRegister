@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Table(name = "students")
 
 
 public class Student {
@@ -34,10 +34,12 @@ public class Student {
     @Column(nullable = false)
     private Double gpa;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private LocalDate enrollmentDate;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private IsInternational isInternational;
 
 

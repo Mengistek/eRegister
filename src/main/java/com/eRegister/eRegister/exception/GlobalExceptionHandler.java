@@ -1,24 +1,22 @@
 package com.eRegister.eRegister.exception;
 
+import com.eRegister.eRegister.exception.StudentNotFoundException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(StudentNotFoundException.class)
-    public ModelAndView  handleStudentNotFoundException(StudentNotFoundException ex) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("message",ex.getMessage());
-        mav.setViewName("error/student-not-found");
-        return mav;
+    public String handleStudentNotFoundException(StudentNotFoundException e, Model model) {
+        model.addAttribute("message", e.getMessage());
+        return "error"; // Ensure you have an error.html template in your Thymeleaf templates
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handlerGeneralException(Exception ex){
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("message","An unexpected error occurred: "+ ex.getMessage());
-        mav.setViewName("error/general-error") ;
-        return mav;
+    public String handleException(Exception e, Model model) {
+        model.addAttribute("message", "An unexpected error occurred: " + e.getMessage());
+        return "error"; // Ensure you have an error.html template in your Thymeleaf templates
     }
 }

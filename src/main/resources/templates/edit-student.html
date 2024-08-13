@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Edit Student</h1>
-<form th:action="@{/eregistrar/students/edit/{id}(id=${student.id})}" th:object="${student}" method="post">
+<form th:action="@{/eregistrar/students/edit/{id}(id=${student.student_id})}" th:object="${student}" method="post">
     <label>Student Number:</label>
     <input type="text" th:field="*{studentNumber}" required/><br/>
     <label>First Name:</label>

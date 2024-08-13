@@ -9,8 +9,10 @@ public interface StudentIpm {
     List<StudentDto> getAllStudents( );
 
     StudentDto saveStudent(StudentDto studentDto);
+
     void  deleteStudent(Long id);
     StudentDto getStudentById(Long id);
 
     StudentDto updateStudent(StudentDto studentDto, Long id);
+    List<StudentDto> searchStudentsByNumber(String StudentNumber);
 }
