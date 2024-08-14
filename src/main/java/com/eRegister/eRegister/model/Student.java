@@ -3,7 +3,6 @@ package com.eRegister.eRegister.model;
 import com.eRegister.eRegister.Enam.IsInternational;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +19,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long student_id;
+
     @Column(nullable = false ,unique = true)
     private String studentNumber;
 

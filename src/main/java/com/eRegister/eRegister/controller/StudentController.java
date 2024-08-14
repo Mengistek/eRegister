@@ -50,9 +50,10 @@ public class StudentController {
     @PostMapping("/register")
     public String registerStudent(@Valid @ModelAttribute("student") StudentDto studentDto, BindingResult result,Model model) {
         if (result.hasErrors()){
+            model.addAttribute("student", studentDto);
             return "student/register";
         }
-        System.out.println("Register student"+ studentDto);
+
 
         studentService.saveStudent(studentDto);
         return  "redirect:/api/v1/eregistrar/students";
