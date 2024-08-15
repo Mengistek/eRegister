@@ -9,28 +9,35 @@
 <form th:action="@{/api/v1/eregistrar/students/edit/{id}(id=${student.studentId})}" th:object="${student}" method="post">
 
     <label>Student Number:</label>
-    <input type="text" th:field="*{studentNumber}" required/><br/>
+    <input type="text" th:field="*{studentNumber}" required/>
+    <div th:if="${#fields.hasErrors('studentNumber')}" th:errors="*{studentNumber}"></div><br/>
 
     <label>First Name:</label>
-    <input type="text" th:field="*{firstName}" required/><br/>
+    <input type="text" th:field="*{firstName}" required/>
+    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div><br/>
 
     <label>Middle Name:</label>
     <input type="text" th:field="*{middleName}"/><br/>
 
     <label>Last Name:</label>
-    <input type="text" th:field="*{lastName}" required/><br/>
+    <input type="text" th:field="*{lastName}" required/>
+    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div><br/>
 
     <label>CGPA:</label>
-    <input type="number" step="0.01" th:field="*{gpa}"/><br/>
+    <input type="number" step="0.01" th:field="*{gpa}"/>
+    <div th:if="${#fields.hasErrors('gpa')}" th:errors="*{gpa}"></div><br/>
 
     <label>Enrollment Date:</label>
-    <input type="date" th:field="*{enrollmentDate}" required/><br/>
+    <input type="date" th:field="*{enrollmentDate}" required/>
+    <div th:if="${#fields.hasErrors('enrollmentDate')}" th:errors="*{enrollmentDate}"></div><br/>
 
     <label>International:</label>
     <select th:field="*{isInternational}" required>
-        <option value="Yes" th:selected="*{isInternational == 'Yes'}">Yes</option>
-        <option value="No" th:selected="*{isInternational == 'No'}">No</option>
-    </select><br/>
+        <option value="YES" th:selected="*{isInternational == 'YES'}">Yes</option>
+        <option value="NO" th:selected="*{isInternational == 'NO'}">No</option>
+    </select>
+    <div th:if="${#fields.hasErrors('isInternational')}" th:errors="*{isInternational}"></div><br/>
+
 
     <button type="submit">Update</button>
 </form>
